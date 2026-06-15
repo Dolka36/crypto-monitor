@@ -8,9 +8,10 @@ import com.cryptomonitor.model.Stablecoin;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class PortfolioService {
-    private List<Asset> assets = new ArrayList<>();
+    private List<Asset> assets = new CopyOnWriteArrayList<>();
 
     public void addAsset(Asset asset){
         assets.add(asset);
@@ -41,5 +42,9 @@ public class PortfolioService {
                 .sorted(Comparator.comparingDouble(Asset::getPrice).reversed())
                 .limit(3)
                 .forEach(asset -> System.out.println(asset));
+    }
+
+    public List<Asset> getAssets(){
+        return assets;
     }
 }
