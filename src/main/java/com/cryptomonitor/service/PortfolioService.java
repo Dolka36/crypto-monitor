@@ -1,5 +1,6 @@
 package com.cryptomonitor.service;
 
+import com.cryptomonitor.exception.AssetNotFoundException;
 import com.cryptomonitor.model.Asset;
 import com.cryptomonitor.model.CryptoCoin;
 import com.cryptomonitor.model.Stablecoin;
@@ -25,5 +26,12 @@ public class PortfolioService {
             }
             System.out.println("-------------------");
         }
+    }
+
+    public Asset findAssetByTicker(String ticker){
+        return assets.stream()
+                .filter(asset -> asset.getTicker().equalsIgnoreCase(ticker))
+                .findFirst()
+                .orElseThrow(() -> new AssetNotFoundException("Ассет с тикером " + ticker + " не найден"));
     }
 }
