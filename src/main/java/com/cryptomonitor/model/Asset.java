@@ -34,4 +34,9 @@ public abstract class Asset {
     public void setPrice(double price) {
         this.price = price;
     }
+
+    @Override
+    public String toString() {
+        return String.format("Название: %s, Тикер: %s, Цена: %.2f", getName(), getTicker(), getPrice());
+    }
 }

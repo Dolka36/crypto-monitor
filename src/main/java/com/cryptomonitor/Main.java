@@ -11,9 +11,13 @@ public class Main {
     public static void main(String[] args) {
         PortfolioService portfolioService = new PortfolioService();
         portfolioService.addAsset(new CryptoCoin("Bitcoin", "BTC", 65000, +2.5));
+        portfolioService.addAsset(new CryptoCoin("Ethereum", "ETH", 1700, +2.9));
         portfolioService.addAsset(new Stablecoin("Tether", "USDT", 1.0, "USD"));
+        portfolioService.addAsset(new Stablecoin("USD Coin", "USDC", 1.0, "USD"));
 
         portfolioService.displayPortfolio();
+
+        System.out.println("--------------------------");
 
         try {
             Asset fake = portfolioService.findAssetByTicker("Tether");
@@ -22,6 +26,10 @@ public class Main {
             System.out.println("[Ошибка поиска]: " + e.getMessage());
         }
 
-        System.out.println("Программа продолжает работу дальше!");
+        System.out.println("--------------------------");
+
+        portfolioService.displayTopExpensiveAssets();
+
+        System.out.println("--------------------------");
     }
 }

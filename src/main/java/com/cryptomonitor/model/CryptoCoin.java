@@ -15,4 +15,10 @@ public class CryptoCoin extends Asset{
     public void setPriceChange24h(double priceChange24h) {
         this.priceChange24h = priceChange24h;
     }
+
+    @Override
+    public String toString() {
+        return String.format("Название: %s, Тикер: %s, Цена: %.2f, Изменение за 24ч: %.2f"
+                , getName(), getTicker(), getPrice(), getPriceChange24h());
+    }
 }

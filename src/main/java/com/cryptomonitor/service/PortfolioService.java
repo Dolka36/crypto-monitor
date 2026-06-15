@@ -6,6 +6,7 @@ import com.cryptomonitor.model.CryptoCoin;
 import com.cryptomonitor.model.Stablecoin;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class PortfolioService {
@@ -33,5 +34,12 @@ public class PortfolioService {
                 .filter(asset -> asset.getTicker().equalsIgnoreCase(ticker))
                 .findFirst()
                 .orElseThrow(() -> new AssetNotFoundException("Ассет с тикером " + ticker + " не найден"));
+    }
+
+    public void displayTopExpensiveAssets(){
+        assets.stream()
+                .sorted(Comparator.comparingDouble(Asset::getPrice).reversed())
+                .limit(3)
+                .forEach(asset -> System.out.println(asset));
     }
 }
