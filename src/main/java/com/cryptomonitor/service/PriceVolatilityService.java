@@ -5,8 +5,11 @@ import com.cryptomonitor.model.Asset;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.logging.Logger;
 
 public class PriceVolatilityService implements Runnable{
+
+    private static final Logger logger = Logger.getLogger(PriceVolatilityService.class.getName());
     private final PortfolioService portfolioService;
 
     public PriceVolatilityService(PortfolioService portfolioService1) {
@@ -19,7 +22,8 @@ public class PriceVolatilityService implements Runnable{
             try {
                 Thread.sleep(2000);
             } catch (InterruptedException e) {
-                throw new RuntimeException(e);
+                logger.severe("Поток обновления цен был прерван: " + e.getMessage());
+                Thread.currentThread().interrupt();
             }
 
             CopyOnWriteArrayList<Asset> assetsList = portfolioService.getAssets();
@@ -35,7 +39,7 @@ public class PriceVolatilityService implements Runnable{
 
                 assetsList.set(i, updatedAsset);
             }
-            System.out.println("[Биржа]: Фоновое обновление цен завершено.");
+            logger.info("Фоновое обновление цен завершено.");
         }
     }
 }
