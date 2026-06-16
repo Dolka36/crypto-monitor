@@ -1,9 +1,9 @@
 package com.cryptomonitor.model;
 
 public abstract class Asset {
-    private String name;
-    private String ticker;
-    private double price;
+    private final String name;
+    private final String ticker;
+    private final double price;
 
     public Asset(String name, String ticker, double price) {
         this.name = name;
@@ -15,25 +15,16 @@ public abstract class Asset {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public String getTicker() {
         return ticker;
-    }
-
-    public void setTicker(String ticker) {
-        this.ticker = ticker;
     }
 
     public double getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
-        this.price = price;
-    }
+    public abstract Asset withPrice(double newPrice);
+
 
     @Override
     public String toString() {

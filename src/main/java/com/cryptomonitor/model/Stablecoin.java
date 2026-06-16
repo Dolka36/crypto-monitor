@@ -18,6 +18,11 @@ public class Stablecoin extends Asset{
     }
 
     @Override
+    public Asset withPrice(double newPrice) {
+        return new Stablecoin(getName(), getTicker(), newPrice, getFiatBinding());
+    }
+
+    @Override
     public String toString() {
         return String.format("Название: %s, Тикер: %s, Цена: %.2f, Тип валюты: %s"
                 , getName(), getTicker(), getPrice(), getFiatBinding());

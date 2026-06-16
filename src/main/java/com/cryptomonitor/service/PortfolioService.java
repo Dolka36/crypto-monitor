@@ -6,12 +6,13 @@ import com.cryptomonitor.model.CryptoCoin;
 import com.cryptomonitor.model.Stablecoin;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class PortfolioService {
-    private List<Asset> assets = new CopyOnWriteArrayList<>();
+    private final CopyOnWriteArrayList<Asset> assets = new CopyOnWriteArrayList<>();
 
     public void addAsset(Asset asset){
         assets.add(asset);
@@ -44,7 +45,7 @@ public class PortfolioService {
                 .forEach(asset -> System.out.println(asset));
     }
 
-    public List<Asset> getAssets(){
+    public CopyOnWriteArrayList<Asset> getAssets() {
         return assets;
     }
 }

@@ -17,6 +17,11 @@ public class CryptoCoin extends Asset{
     }
 
     @Override
+    public Asset withPrice(double newPrice) {
+        return new CryptoCoin(getName(), getTicker(), newPrice, getPriceChange24h());
+    }
+
+    @Override
     public String toString() {
         return String.format("Название: %s, Тикер: %s, Цена: %.2f, Изменение за 24ч: %.2f"
                 , getName(), getTicker(), getPrice(), getPriceChange24h());

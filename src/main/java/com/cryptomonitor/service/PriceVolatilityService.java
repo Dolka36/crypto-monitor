@@ -2,6 +2,8 @@ package com.cryptomonitor.service;
 
 import com.cryptomonitor.model.Asset;
 
+import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class PriceVolatilityService implements Runnable{
@@ -13,18 +15,25 @@ public class PriceVolatilityService implements Runnable{
 
     @Override
     public void run() {
-        while (true){
+        while (true) {
             try {
                 Thread.sleep(2000);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
-            for(Asset asset : portfolioService.getAssets()){
-                double currentPrice = asset.getPrice();
+
+            CopyOnWriteArrayList<Asset> assetsList = portfolioService.getAssets();
+
+            for (int i = 0; i < assetsList.size(); i++) {
+                Asset currentAsset = assetsList.get(i);
+
                 double changePercent = ThreadLocalRandom.current().nextDouble(-5.0, 5.0);
-                double newPrice = currentPrice * (1 + changePercent / 100);
+                double newPrice = currentAsset.getPrice() * (1 + changePercent / 100);
                 newPrice = Math.round(newPrice * 100.0) / 100.0;
-                asset.setPrice(newPrice);
+
+                Asset updatedAsset = currentAsset.withPrice(newPrice);
+
+                assetsList.set(i, updatedAsset);
             }
             System.out.println("[Биржа]: Фоновое обновление цен завершено.");
         }
