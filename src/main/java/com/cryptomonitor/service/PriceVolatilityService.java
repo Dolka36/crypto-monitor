@@ -7,13 +7,13 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.logging.Logger;
 
-public class PriceVolatilityService implements Runnable{
+public class PriceVolatilityService implements Runnable {
 
     private static final Logger logger = Logger.getLogger(PriceVolatilityService.class.getName());
-    private final PortfolioService portfolioService;
+    private final PortfolioService<? extends Asset> portfolioService;
 
-    public PriceVolatilityService(PortfolioService portfolioService1) {
-        this.portfolioService = portfolioService1;
+    public PriceVolatilityService(PortfolioService<? extends Asset> portfolioService) {
+        this.portfolioService = portfolioService;
     }
 
     @Override
@@ -24,9 +24,10 @@ public class PriceVolatilityService implements Runnable{
             } catch (InterruptedException e) {
                 logger.severe("Поток обновления цен был прерван: " + e.getMessage());
                 Thread.currentThread().interrupt();
+                break;
             }
 
-            CopyOnWriteArrayList<Asset> assetsList = portfolioService.getAssets();
+            CopyOnWriteArrayList<? extends Asset> assetsList = portfolioService.getAssets();
 
             for (int i = 0; i < assetsList.size(); i++) {
                 Asset currentAsset = assetsList.get(i);
@@ -37,7 +38,7 @@ public class PriceVolatilityService implements Runnable{
 
                 Asset updatedAsset = currentAsset.withPrice(newPrice);
 
-                assetsList.set(i, updatedAsset);
+                ((CopyOnWriteArrayList<Asset>) assetsList).set(i, updatedAsset);
             }
             logger.info("Фоновое обновление цен завершено.");
         }

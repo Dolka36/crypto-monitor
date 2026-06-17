@@ -11,15 +11,15 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-public class PortfolioService {
-    private final CopyOnWriteArrayList<Asset> assets = new CopyOnWriteArrayList<>();
+public class PortfolioService<T extends Asset> {
+    private final CopyOnWriteArrayList<T> assets = new CopyOnWriteArrayList<>();
 
-    public void addAsset(Asset asset){
+    public void addAsset(T asset){
         assets.add(asset);
     }
 
     public void displayPortfolio(){
-        for(Asset asset : assets){
+        for(T asset : assets){
             System.out.println("Название: " + asset.getName() + " Тикер " + asset.getTicker() + " Цена "
                     + asset.getPrice());
             if(asset instanceof CryptoCoin crypto){
@@ -31,7 +31,7 @@ public class PortfolioService {
         }
     }
 
-    public Asset findAssetByTicker(String ticker){
+    public T findAssetByTicker(String ticker){
         return assets.stream()
                 .filter(asset -> asset.getTicker().equalsIgnoreCase(ticker))
                 .findFirst()
@@ -45,7 +45,7 @@ public class PortfolioService {
                 .forEach(asset -> System.out.println(asset));
     }
 
-    public CopyOnWriteArrayList<Asset> getAssets() {
+    public CopyOnWriteArrayList<T> getAssets() {
         return assets;
     }
 }
